@@ -9,14 +9,15 @@ export type OnboardingStep =
   | "imports"
   | "final";
 
+// Local-only fork: no account step. Sign-in stays available from cloud features
+// (e.g. Google/Outlook calendar) when explicitly chosen.
 const STEPS_MACOS: OnboardingStep[] = [
   "permissions",
-  "login",
   "calendar",
   "imports",
   "final",
 ];
-const STEPS_OTHER: OnboardingStep[] = ["login", "calendar", "imports", "final"];
+const STEPS_OTHER: OnboardingStep[] = ["calendar", "imports", "final"];
 
 function getOnboardingSteps(): OnboardingStep[] {
   return platform() === "macos" ? STEPS_MACOS : STEPS_OTHER;

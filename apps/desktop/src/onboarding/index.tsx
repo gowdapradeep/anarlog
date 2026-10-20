@@ -115,7 +115,6 @@ function OnboardingScreenContent({
   }, [currentStep]);
 
   const handleCalendarSignIn = useCallback(() => {
-    setCurrentStep("login");
     void auth.signIn();
   }, [auth]);
 

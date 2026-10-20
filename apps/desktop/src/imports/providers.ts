@@ -1,5 +1,7 @@
 import type { InstalledApp } from "@anlg/plugin-detect";
 
+import { env } from "~/env";
+
 export type MeetingImportProvider = {
   id: string;
   name: string;
@@ -17,7 +19,7 @@ export type DetectedMeetingImportProvider = MeetingImportProvider & {
   iconUrl?: string;
 };
 
-export const MEETING_IMPORT_PROVIDERS: MeetingImportProvider[] = [
+const ALL_MEETING_IMPORT_PROVIDERS: MeetingImportProvider[] = [
   {
     id: "granola",
     name: "Granola",
@@ -281,6 +283,17 @@ export const MEETING_IMPORT_PROVIDERS: MeetingImportProvider[] = [
     bundleIds: ["ai.limitless.desktop", "com.memoryvault.MemoryVault"],
   },
 ];
+
+// Local-only fork: "nango-oauth" imports (Teams, Zoom, Google Meet, Webex,
+// Fathom, Notion) run through Anarlog's cloud and need an Anarlog account, so
+// they are hidden. Local MCP/CLI imports and export guides stay.
+export const CLOUD_IMPORTS_ENABLED = env.VITE_ANLG_ENABLE_CLOUD === "true";
+
+export const MEETING_IMPORT_PROVIDERS: MeetingImportProvider[] =
+  ALL_MEETING_IMPORT_PROVIDERS.filter(
+    (provider) =>
+      CLOUD_IMPORTS_ENABLED || provider.directImport !== "nango-oauth",
+  );
 
 const normalize = (value: string) =>
   value

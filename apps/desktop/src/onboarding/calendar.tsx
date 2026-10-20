@@ -21,7 +21,10 @@ import {
 import { SyncProvider, useSync } from "~/calendar/components/context";
 import { useOAuthCalendarSelection } from "~/calendar/components/oauth/calendar-selection";
 import { ReconnectRequiredIndicator } from "~/calendar/components/oauth/status";
-import { PROVIDERS } from "~/calendar/components/shared";
+import {
+  CLOUD_CALENDARS_ENABLED,
+  PROVIDERS,
+} from "~/calendar/components/shared";
 import { useEnabledCalendars } from "~/calendar/hooks";
 import { usePermission } from "~/shared/hooks/usePermissions";
 import { openIntegrationUrl } from "~/shared/integration";
@@ -585,8 +588,12 @@ function CalendarSectionContent({
           />
         )}
 
-        <GoogleCalendarProvider onSignIn={onSignIn} />
-        <OutlookCalendarProvider onSignIn={onSignIn} />
+        {CLOUD_CALENDARS_ENABLED && (
+          <>
+            <GoogleCalendarProvider onSignIn={onSignIn} />
+            <OutlookCalendarProvider onSignIn={onSignIn} />
+          </>
+        )}
       </div>
 
       {hasConnectedCalendar && (

@@ -34,6 +34,7 @@ import { OAuthProviderContent } from "./oauth/provider-content";
 import {
   type CalendarProvider,
   getCalendarConnectionKey,
+  isCalendarProviderVisible,
   PROVIDERS,
 } from "./shared";
 
@@ -165,7 +166,9 @@ export function CalendarSidebarContent({
   const visibleProviders = useMemo(
     () =>
       PROVIDERS.filter(
-        (p) => p.platform === "all" || (p.platform === "macos" && isMacos),
+        (p) =>
+          isCalendarProviderVisible(p) &&
+          (p.platform === "all" || (p.platform === "macos" && isMacos)),
       ),
     [isMacos],
   );

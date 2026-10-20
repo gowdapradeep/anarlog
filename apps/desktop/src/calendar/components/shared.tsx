@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 
 import { OutlookIcon } from "@anlg/ui/components/icons/outlook";
 
+import { env } from "~/env";
+
 export type CalendarProvider = {
   disabled: boolean;
   id: string;
@@ -54,6 +56,14 @@ const _PROVIDERS = [
 ] as const satisfies readonly CalendarProvider[];
 
 export const PROVIDERS = [..._PROVIDERS];
+
+// Local-only fork: Google/Outlook calendars connect through Anarlog's cloud
+// (Nango OAuth + account), so they are hidden. Apple Calendar stays.
+export const CLOUD_CALENDARS_ENABLED = env.VITE_ANLG_ENABLE_CLOUD === "true";
+
+export function isCalendarProviderVisible(provider: CalendarProvider) {
+  return CLOUD_CALENDARS_ENABLED || !provider.nangoIntegrationId;
+}
 
 const CALENDAR_NANGO_INTEGRATION_IDS = new Set<string>(
   PROVIDERS.flatMap((provider) =>

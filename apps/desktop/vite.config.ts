@@ -43,6 +43,8 @@ export default defineConfig(() => ({
     reporters: "default",
     environment: "jsdom",
     setupFiles: ["./src/test-setup.ts"],
+    // Upstream tests exercise the cloud-account features this fork hides.
+    env: { VITE_ANLG_ENABLE_CLOUD: "true" },
     onConsoleLog: (_, type) => {
       return type === "stderr";
     },
